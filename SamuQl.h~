@@ -60,7 +60,7 @@
 #include <algorithm>
 
 #include "orchmach1.hpp"
-typedef std::tuple<int,int,int> i3tuple;
+
 class Perceptron
 {
 public:
@@ -1157,42 +1157,31 @@ public:
     std::string printSortedRules() {
 
         std::vector<std::pair<std::pair<int, int>, int>> tmp;
-	std::vector<i3tuple>tmp2;
+
         for ( auto& rule : rules ) {
             std::pair<std::pair<int, int>, int> p {{rule.first.first, rule.first.second}, rule.second};
-            
-	    tmp.push_back ( p );
+            tmp.push_back ( p );
         }
-        
-	for(auto& p:tmp){ 
-	 tmp2.push_back(i3tuple(p.first.first,p.first.second,p.second)); 
-	}
-        /*std::sort (
+
+        std::sort (
             std::begin ( tmp ), std::end ( tmp ),
         [=] ( auto&& t1, auto&&t2 ) {
             return t1.second > t2.second;
         }
-        );*/
-	
-	std::sort ( tmp2.begin(), tmp2.end(), osszehasonlit() );
+        );
+
         std::stringstream ss;
 
-        ss << tmp2.size();
+        ss << tmp.size();
 
-        for ( auto& rule : tmp2 ) {
+        for ( auto& rule : tmp ) {
             //ss << ", " <<rule.first.first <<","  << rule.first.second << "(" << rule.second<< ") ";
-ss << ", " <<std::get<0>(rule) <<", "  << std::get<1>(rule)<<"("<<std::get<2>(rule)<<")";
+ss << ", " <<rule.first.first <<", "  << rule.first.second;
 	  
 	}
         return ss.str();
 
     }
-struct osszehasonlit{
- bool operator()(const i3tuple &a, const i3tuple &b)const
- {
-return std::get<2>(a) > std::get<2>(b);
- }
-};
 
 
 private:
@@ -1334,4 +1323,3 @@ private:
 };
 
 #endif
-
